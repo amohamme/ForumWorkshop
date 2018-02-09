@@ -1,64 +1,67 @@
 ########################################
-# ATM 
+# ATM Withdraw
 ########################################
 
 # Allowed papers: 100, 50, 10, 5, and rest of request
 
-def atm(money,request,allowed_papers):
+def withdraw(balance,request):
 
+	cash = [100,50,10,5]
+	request_orig = request
+	
 	print '==========================================='
-	print ' ATM Requested Amount : ', request
-	print ' ATM Allowed papers   : ', allowed_papers[0],',',allowed_papers[1],',',allowed_papers[2],',',allowed_papers[3],',',' change < ' ,allowed_papers[3] 
+	print ' Account balance   : ', balance
+	print ' Withdraw Request  : ', request 
 	print '==========================================='
 	
 	# Check Requested Amount - Enough Balance
-	if (request > money):
-		print 'ATM maximum transaction is', money ,'please use less amount'
-		return
+	if (request > balance):
+		refuse(1)
+		return balance
 		
 	# Check Requested Amount - Negative Request
-	if (request <= 0):
-		print 'Wrong negative requested amount, please enter a postive amount'
-		return
-
-	reminder = 0
+	elif (request <= 0):
+		refuse(2)
+		return balance
 	
-	while request > 0:
-		if (request >= allowed_papers[0]):
-			print 'give',allowed_papers[0]
-			request = request - allowed_papers[0]
-		elif (request >= allowed_papers[1]):
-			print 'give', allowed_papers[1]
-			request = request - allowed_papers[1]
-		elif (request >= allowed_papers[2]):
-			print 'give', allowed_papers[2]
-			request = request - allowed_papers[2]
-		elif (request >= allowed_papers[3]):
-			print 'give', allowed_papers[3]
-			request = request - allowed_papers[3]
-		else:
-			print 'give',request
-			return
+	# Valid Request
+	else:
+		reminder = balance - request
+		for c in cash:
+			while request >= c:
+				give(c)
+				request -= c
+		finish(request_orig,reminder)
+		# Return balance after withdraw
+		return reminder
+		
+	
+		
+def give(c):
+	print 'give : ' + str(c)
+	return
 
+def finish(request,reminder):
+	print ''
+	print ' >>> Request for ' + str(request) + ' is done '
+	print ' >>> Current balance is : ' + str(reminder) 
+	return
+	
+def refuse(reason):
+	if reason == 1:
+		print 'Request refused - Account balance is ' + str(balance) + ' please use less amount'
+		return
+	elif reason == 2:
+		print 'Request refused, please enter a postive amount'
+		return
+	else:
+		print 'Request refused'
 
-allowed_papers = [100,50,10,5]
+		
+# Testing
+balance  = 500
+requests = [300, 800, 150, 5, -20, 0, 40]
 
-300, 800, 150, 5, -20, 0
-
-atm(500,277,allowed_papers)
-print ' '
-atm(500,300,allowed_papers)
-print ' '
-atm(500,800,allowed_papers)
-print ' '
-atm(500,150,allowed_papers)
-print ' '
-atm(500,5,allowed_papers)
-print ' '
-atm(500,-20,allowed_papers)
-print ' '
-atm(500,0,allowed_papers)
-print ' '
-atm(500,500,allowed_papers)
-print ' '
-atm(500,11,allowed_papers)
+for t in requests:
+	balance = withdraw(balance, t)
+	print ''
