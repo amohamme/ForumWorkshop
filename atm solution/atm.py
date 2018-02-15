@@ -17,7 +17,6 @@ class ATM:
 
     def withdraw(self, request):
         cash = [100, 50, 10, 5]
-        request_orig = request
         result = self.balance
 
         print('===========================================')
@@ -36,12 +35,8 @@ class ATM:
         
         # Valid Request
         else:
-            reminder = self.balance - request
-            for c in cash:
-                while request >= c:
-                    give(c)
-                    request -= c
-            finish(request_orig, reminder)
+            reminder = accept(cash,self.balance,request)
+            finish(request, reminder)
             # Return balance after withdraw
             result = reminder
 
@@ -51,6 +46,13 @@ def give(c):
     print('give : ' + str(c))
     return
 
+def accept(cash, balance, request):
+    reminder = balance - request
+    for c in cash:
+        while request >= c:
+            give(c)
+            request -= c
+    return reminder
 
 def finish(request, reminder):
     print('')
