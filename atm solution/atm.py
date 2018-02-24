@@ -16,6 +16,38 @@ class ATM:
         self.bank_name = bank_name
         self.withdrawals_list = []
 
+    @staticmethod
+    def give(c):
+        print('give : ' + str(c))
+        return
+
+    @staticmethod
+    def accept(balance, request, cash = [100, 50, 10, 5]):
+        reminder = balance - request
+        for c in cash:
+            while request >= c:
+                ATM.give(c)
+                request -= c
+        return reminder
+
+    @staticmethod
+    def finish(request, reminder):
+        print('')
+        print(' >>> Request for ' + str(request) + ' is done ')
+        print(' >>> Current balance is : ' + str(reminder))
+        return
+
+    @staticmethod
+    def refuse(balance,reason):
+        if reason == Reason.Insufficient:
+            print('Request refused - Account balance is ' + str(balance) + ' please use less amount')
+            return
+        elif reason == Reason.Negative:
+            print('Request refused, please enter a postive amount')
+            return
+        else:
+            print('Request refused')
+
     def withdraw(self, request):
         cash = [100, 50, 10, 5]
         result = self.balance
@@ -28,16 +60,16 @@ class ATM:
         
         # Check Requested Amount - Enough Balance
         if (request > self.balance):
-            refuse(self.balance,Reason.Insufficient)
+            ATM.refuse(self.balance,Reason.Insufficient)
         
         # Check Requested Amount - Negative Request
         elif (request <= 0):
-            refuse(Reason.Negative)
+            ATM.refuse(Reason.Negative)
         
         # Valid Request
         else:
-            reminder = accept(cash,self.balance,request)
-            finish(request, reminder)
+            reminder = self.accept(self.balance,request,cash)
+            ATM.finish(request, reminder)
             # Return balance after withdraw
             result = reminder
             self.withdrawals_list.append(request)
@@ -47,36 +79,6 @@ class ATM:
     def show_withdrawals(self):
         for withdrawal in self.withdrawals_list:
             print(withdrawal)
-
-def give(c):
-    print('give : ' + str(c))
-    return
-
-def accept(cash, balance, request):
-    reminder = balance - request
-    for c in cash:
-        while request >= c:
-            give(c)
-            request -= c
-    return reminder
-
-def finish(request, reminder):
-    print('')
-    print(' >>> Request for ' + str(request) + ' is done ')
-    print(' >>> Current balance is : ' + str(reminder))
-    return
-
-
-def refuse(balance,reason):
-    if reason == Reason.Insufficient:
-        print('Request refused - Account balance is ' + str(balance) + ' please use less amount')
-        return
-    elif reason == Reason.Negative:
-        print('Request refused, please enter a postive amount')
-        return
-    else:
-        print('Request refused')
-
 
 # Testing 1
 # balance  = 500
