@@ -14,15 +14,16 @@ class ATM:
     def __init__(self, balance, bank_name):
         self.balance = balance
         self.bank_name = bank_name
+        self.withdrawals_list = []
 
     def withdraw(self, request):
         cash = [100, 50, 10, 5]
         result = self.balance
 
         print('===========================================')
-        print(' Welcom to Bank    : ', self.bank_name)
-        print(' Account balance   : ', self.balance)
-        print(' Withdraw Request  : ', request)
+        print(' Welcome to Bank    : ', self.bank_name)
+        print(' Account balance    : ', self.balance)
+        print(' Withdraw Request   : ', request)
         print('===========================================')
         
         # Check Requested Amount - Enough Balance
@@ -39,8 +40,13 @@ class ATM:
             finish(request, reminder)
             # Return balance after withdraw
             result = reminder
+            self.withdrawals_list.append(request)
 
         return result
+        
+    def show_withdrawals(self):
+        for withdrawal in self.withdrawals_list:
+            print(withdrawal)
 
 def give(c):
     print('give : ' + str(c))
@@ -92,6 +98,11 @@ atm2 = ATM(balance2,bank2)
 
 atm1.withdraw(200)
 atm1.withdraw(800)
+print('Withdrawals : ')
+atm1.show_withdrawals()
 
 atm2.withdraw(500)
+atm2.withdraw(300)
 atm2.withdraw(1200)
+print('Withdrawals : ')
+atm2.show_withdrawals()
