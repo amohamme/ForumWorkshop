@@ -3,6 +3,10 @@
 ########################################
 
 import models
+import stores
+
+member_store = stores.MemberStore()
+post_store = stores.PostStore()
 
 name1 = 'Ahmed'
 age1  = 32
@@ -25,5 +29,15 @@ post1 = models.post(title1,content1)
 post2 = models.post(title2,content2)
 post3 = models.post(title3,content3)
 
-print(member1.name)
-print(member2.age)
+member_store.add(member1)
+member_store.add(member2)
+
+post_store.add(post1)
+post_store.add(post2)
+post_store.add(post3)
+
+#print(member1)
+#print(post1)
+print(member_store.get_all())
+print(post_store.get_all())
+
