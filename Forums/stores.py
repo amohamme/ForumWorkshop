@@ -8,11 +8,11 @@ class MemberStore:
 
     def get_all(self):
         # get all members
-        return self.members
+        return MemberStore.members
 
     def add(self, member):
         # append member
-        self.members.append(member)
+        MemberStore.members.append(member)
 
     def get_by_id(self, id):
         return id
@@ -35,11 +35,11 @@ class PostStore:
     
     def get_all(self):
         # get all posts
-        return self.posts
+        return PostStore.posts
     
     def add(self, post):
         # append post
-        self.posts.append(post)
+        PostStore.posts.append(post)
     
     def get_by_id(self, id):
         return id
