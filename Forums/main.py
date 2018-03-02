@@ -60,6 +60,55 @@ def catch_exception_when_deleting():
         print("It should be an existence entity before deleting !")
 
 
+# ========= Posts =================================================
+
+def create_posts(members_instances):
+
+    post1 = models.post("Agriculture", "Agriculture is amazing", members_instances[0].id)
+    post2 = models.post("Engineering", "I love engineering", members_instances[0].id)
+
+    post3 = models.post("Medicine", "Medicine is great", members_instances[1].id)
+    post4 = models.post("Architecture", "Spectacular art", members_instances[1].id)
+    post5 = models.post("Astronomy", "Space is awesome", members_instances[1].id)
+
+    post6 = models.post("Geology", "Earth is our friend", members_instances[2].id)
+    post7 = models.post("ComputerSci", "Our passion", members_instances[2].id)
+    post8 = models.post("Algorithms", "Yeah, more of that", members_instances[2].id)
+    post9 = models.post("Operating Systems", "Ewww", members_instances[2].id)
+
+    print(post1)
+    print(post2)
+    print(post3)
+    print("=" * 30)
+
+    return post1, post2, post3, post4, post5, post6, post7, post8, post9
+
+
+def store_should_add_posts(posts_instances, post_store):
+    for member in posts_instances:
+        post_store.add(member)
+
+
+def store_should_get_members_with_posts(member_store, post_store):
+    members_with_posts = member_store.get_members_with_posts(post_store.get_all())
+
+    for member_with_posts in members_with_posts:
+        print(f"{member_with_posts} has posts:")
+        for post in member_with_posts.posts:
+            print(f"\t{post}")
+
+        print("=" * 10)
+
+
+def store_should_get_top_two(member_store, post_store):
+    top_two_members = member_store.get_top_two(post_store.get_all())
+
+    for member_with_posts in top_two_members:
+        print(f"{member_with_posts} has posts:")
+        for post in member_with_posts.posts:
+            print(f"\t{post}")
+
+# ====== Test Members ====================
 members_instances = create_members()
 member1, member2, member3 = members_instances
 
@@ -67,6 +116,16 @@ add_models_to_store(members_instances, member_store)
 
 #print_all_members(member_store)
 
-test_update(member_store, member3)
+#test_update(member_store, member3)
 
-test_get_by_name(member_store, 'Mohammed')
+#test_get_by_name(member_store, 'Mohammed')
+
+# ====== Test Posts ====================
+posts_instances = create_posts(members_instances)
+post1, post2, post3, post4, post5, post6, post7, post8, post9 = posts_instances
+
+store_should_add_posts(posts_instances, post_store)
+
+#store_should_get_members_with_posts(member_store, post_store)
+
+store_should_get_top_two(member_store, post_store)
