@@ -1,6 +1,7 @@
 ########################################
 # Models
 ########################################
+import datetime
 
 class member:
     def __init__(self, name, age):
@@ -19,6 +20,7 @@ class post:
         self.title = title
         self.content = content
         self.member_id = member_id
+        self.date = datetime.datetime.now()
 
     def __repr__(self):
         return """Title: {} , Content: {}""".format(self.title, self.content)
