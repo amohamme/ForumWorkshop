@@ -126,6 +126,6 @@ post1, post2, post3, post4, post5, post6, post7, post8, post9 = posts_instances
 
 store_should_add_posts(posts_instances, post_store)
 
-#store_should_get_members_with_posts(member_store, post_store)
+store_should_get_members_with_posts(member_store, post_store)
 
 store_should_get_top_two(member_store, post_store)
