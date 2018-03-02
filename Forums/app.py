@@ -2,25 +2,16 @@
 # flask demo
 ########################################
 
-from flask import Flask, render_template
-from Forums import models
-from Forums import stores
+from flask import Flask
+import stores
+import dummy_data
+from Forums.views import *
 
-app = Flask(__name__)
-
+member_store = stores.MemberStore()
 post_store = stores.PostStore()
-post_store.add(models.post("Life", "Life is alawys great"))
-post_store.add(models.post("Sunshine", "Sunshine is amazing"))
 
+if __name__  == "__main__":
+    dummy_data.seed_stores(member_store, post_store)
+    app.run()
 
-@app.route("/")
-@app.route("/index")
-def home():
-     return render_template("index.html", posts = post_store.get_all())
-
-@app.route('/SayHello/<username>')
-def say_hello(username):
-    return 'Hello %s' % username
-
-app.run()
 
