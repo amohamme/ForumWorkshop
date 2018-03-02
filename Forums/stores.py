@@ -5,6 +5,7 @@
 class MemberStore:
 
     members = []
+    last_id = 1
 
     def get_all(self):
         # get all members
@@ -12,20 +13,38 @@ class MemberStore:
 
     def add(self, member):
         # append member
+        member.id = MemberStore.last_id
         MemberStore.members.append(member)
+        MemberStore.last_id += 1
 
     def get_by_id(self, id):
-        return id
+        all_members = self.get_all()
+        member = False
+        for m in all_members:
+            if m.id == id:
+                member = m
+
+        return member
 
     def update(self, member):
         return member
 
     def delete(self, id):
-        return id
+        member = self.get_by_id(id)
+        if member != False:
+            MemberStore.members.remove(member)
+        MemberStore.last_id -= 1
 
     def entity_exists(self, member):
-        return member
-    
+        if hasattr(member, 'id'):
+            result = self.get_by_id(member.id)
+            if result != False:
+                result = True
+        else:
+            result = False
+
+        return result
+
     def __repr__(self):
         return """Members: {}""".format(self.members)
 
