@@ -23,25 +23,36 @@ class MemberStore:
         for m in all_members:
             if m.id == id:
                 member = m
+                break
+
+        return member
+
+    def get_by_name(self, name):
+        all_members = self.get_all()
+        member = False
+        for m in all_members:
+            if m.name == name:
+                member = m
+                break
 
         return member
 
     def update(self, member):
-        return member
+        member_found = self.get_by_id(member.id)
+        if (member_found != False):
+            MemberStore.members[MemberStore.members.index(member_found)] = member
+
 
     def delete(self, id):
         member = self.get_by_id(id)
         if member != False:
             MemberStore.members.remove(member)
-        MemberStore.last_id -= 1
 
     def entity_exists(self, member):
-        if hasattr(member, 'id'):
-            result = self.get_by_id(member.id)
-            if result != False:
-                result = True
-        else:
-            result = False
+        result = False
+        result = self.get_by_id(member.id)
+        if result != False:
+            result = True
 
         return result
 
