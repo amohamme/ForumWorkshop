@@ -2,6 +2,7 @@
 # Stores
 ########################################
 import itertools
+import copy
 
 class BaseStore():
 
@@ -32,14 +33,12 @@ class BaseStore():
 
     def delete(self, id):
         member = self.get_by_id(id)
-        if member != False:
+        if member is not None:
             self._data_provider.remove(member)
 
     def entity_exists(self, item_instance):
-        result = False
+        result = None
         result = self.get_by_id(item_instance.id)
-        if result != False:
-            result = True
         return result
 
 
@@ -60,11 +59,13 @@ class MemberStore(BaseStore):
         return member
 
     def get_members_with_posts(self, all_posts):
-        all_members = self.get_all()
+        all_members = copy.deepcopy(self.get_all())
         for member, post in itertools.product(all_members, all_posts):
                 if (member.id == post.member_id):
                     member.posts.append(post)
-        return(all_members)
+
+        for member in all_members:
+            yield member
 
     def get_top_two(self, all_posts):
         top_number = 2
