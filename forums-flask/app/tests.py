@@ -4,6 +4,7 @@
 
 import models
 import stores
+from time import sleep
 
 member_store = stores.MemberStore()
 post_store = stores.PostStore()
@@ -65,14 +66,17 @@ def catch_exception_when_deleting():
 def create_posts(members_instances):
 
     post1 = models.post("Agriculture", "Agriculture is amazing", members_instances[0].id)
+    sleep(5)
     post2 = models.post("Engineering", "I love engineering", members_instances[0].id)
 
     post3 = models.post("Medicine", "Medicine is great", members_instances[1].id)
+    sleep(5)
     post4 = models.post("Architecture", "Spectacular art", members_instances[1].id)
     post5 = models.post("Astronomy", "Space is awesome", members_instances[1].id)
 
     post6 = models.post("Geology", "Earth is our friend", members_instances[2].id)
     post7 = models.post("ComputerSci", "Our passion", members_instances[2].id)
+    sleep(5)
     post8 = models.post("Algorithms", "Yeah, more of that", members_instances[2].id)
     post9 = models.post("Operating Systems", "Ewww", members_instances[2].id)
 
@@ -108,6 +112,11 @@ def store_should_get_top_two(member_store, post_store):
         for post in member_with_posts.posts:
             print(f"\t{post}")
 
+def store_should_get_posts_by_date(post_store):
+    for post in post_store.get_posts_by_date():
+        print(post, post.date ,'\n')
+
+
 # ====== Test Members ====================
 members_instances = create_members()
 member1, member2, member3 = members_instances
@@ -129,3 +138,6 @@ store_should_add_posts(posts_instances, post_store)
 store_should_get_members_with_posts(member_store, post_store)
 
 store_should_get_top_two(member_store, post_store)
+
+store_should_get_posts_by_date
+

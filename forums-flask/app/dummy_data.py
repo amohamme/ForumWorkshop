@@ -1,4 +1,4 @@
-from Forums import models
+from app import models
 
 dummy_members = [
     models.member("Mohammed", 20),

@@ -27,9 +27,15 @@ class BaseStore():
         return member
 
     def update(self, item_instance):
-        instance_found = self.get_by_id(item_instance.id)
-        if (instance_found != False):
-            self._data_provider[self._data_provider.index(instance_found)] = item_instance
+        result = item_instance
+        all_instances = self.get_all()
+
+        for index, current_post in enumerate(all_instances):
+            if current_post.id == item_instance.id:
+                all_instances[index] = item_instance
+                break
+
+        return result
 
     def delete(self, id):
         member = self.get_by_id(id)
@@ -52,11 +58,10 @@ class MemberStore(BaseStore):
 
     def get_by_name(self, name):
         all_members = self.get_all()
-        member = None
-        for m in all_members:
-            if m.name == name:
-                member = m
-        return member
+
+        for member in all_members:
+            if member.name == name:
+                yield member
 
     def get_members_with_posts(self, all_posts):
         all_members = copy.deepcopy(self.get_all())
@@ -79,6 +84,11 @@ class MemberStore(BaseStore):
 class PostStore(BaseStore):
 
     posts = []
+
+    def get_posts_by_date(self):
+        all_posts = self.get_all()
+        all_posts_sorted = sorted(all_posts, key=lambda all_posts: all_posts.date, reverse=True)
+        return all_posts_sorted
 
     def __init__(self):
         super().__init__(PostStore.posts,0)
